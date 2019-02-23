@@ -1,0 +1,48 @@
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+const int N =10005;
+int a[N];
+ 
+inline void Swap(int &a,int &b){
+	int temp=a;
+	a=b;
+	b=temp;
+}
+int partion(int l,int r){
+	int temp=a[l];
+	while(l<r){
+		while(l<r&&a[r]>=temp) r--;
+		a[l]=a[r];
+		while(l<r&&a[l]<=temp) l++;
+		a[r]=a[l];
+	}
+	a[l]=temp;
+	return l;
+}
+int linearselect(int l,int r,int k){
+	if(l>=r) return a[l];
+	int pos=partion(l,r);
+	if(pos==k) return a[pos];
+	if(pos>k){
+		return linearselect(l,pos-1,k);
+	}
+	else {
+		return linearselect(pos+1,r,k);
+	}
+}
+int main(){
+	int n,k,t;
+    scanf("%d",&t);
+	while(t--){
+        scanf("%d",&n);
+		for(int i=0;i<n;i++){
+			scanf("%d",&a[i]);
+		}
+        scanf("%d",&k);
+		printf("%d\n",linearselect(0,n-1,k));
+	}
+	return 0;
+}
+
